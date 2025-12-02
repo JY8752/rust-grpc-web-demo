@@ -1,0 +1,29 @@
+syntax = "proto3";
+
+package user.v1;
+
+import "buf/validate/validate.proto";
+
+message User {
+  string id = 1 [(buf.validate.field).string.pattern = "^\\d{10}$"];
+  string name = 2 [(buf.validate.field).string.max_len = 50];
+}
+
+service UserService {
+  rpc CreateUser(CreateUserRequest) returns (CreateUserResponse) {}
+  rpc GetUser(GetUserRequest) returns (GetUserResponse) {}
+}
+
+message CreateUserRequest {
+  User user = 1;
+}
+
+message CreateUserResponse {}
+
+message GetUserRequest {
+  string id = 1 [(buf.validate.field).string.pattern = "^\\d{10}$"];
+}
+
+message GetUserResponse {
+  User user = 1;
+}
